@@ -23,7 +23,7 @@ jobs:
       - name: Commit and push
         run: |
           git config user.name "Fahim hassan"
-          git config user.email "Fahim007-cloud@users.noreply.github.com"
+          git config user.email "fahimhassan758@gmail.com"
           git add activity.log
           git commit -m "chore: daily activity $(date -u '+%Y-%m-%d')" || echo "Nothing to commit"
           git push
