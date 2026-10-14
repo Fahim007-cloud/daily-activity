@@ -15,15 +15,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Update activity log
-        run: |
-          echo "$(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> activity.log
-          tail -n 60 activity.log > activity.tmp && mv activity.tmp activity.log
-
-      - name: Commit and push
+      - name: Make daily commits
         run: |
           git config user.name "Fahim hassan"
           git config user.email "fahimhassan758@gmail.com"
-          git add activity.log
-          git commit -m "chore: daily activity $(date -u '+%Y-%m-%d')" || echo "Nothing to commit"
+
+          # Randomly make 3 or 4 commits today
+          COUNT=$((RANDOM % 2 + 3))
+          echo "Making $COUNT commits"
+
+          for i in $(seq 1 $COUNT); do
+            echo "$(date -u '+%Y-%m-%d %H:%M:%S UTC') commit $i" >> activity.log
+            tail -n 200 activity.log > activity.tmp && mv activity.tmp activity.log
+            git add activity.log
+            git commit -m "chore: activity $(date -u '+%Y-%m-%d') #$i"
+            sleep 3
+          done
+
           git push
